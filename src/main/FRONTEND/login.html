@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Sport Hub</title>
+    <style>
+        :root {
+          --primary: #0f766e;
+          --primary-dark: #115e59;
+          --bg: #f8fafc;
+          --card: #ffffff;
+          --text: #1f2937;
+          --muted: #6b7280;
+          --border: #e5e7eb;
+          --shadow: 0 12px 30px rgba(0, 0, 0, 0.10);
+          --radius: 18px;
+        }
+
+        * {
+          box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+          font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+          min-height: 100vh;
+          background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 20px;
+        }
+
+        .auth-card {
+          width: 100%;
+          max-width: 420px;
+          background: var(--card);
+          border-radius: var(--radius);
+          box-shadow: var(--shadow);
+          overflow: hidden;
+        }
+
+        .auth-header {
+          background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+          color: white;
+          padding: 28px 24px;
+          text-align: center;
+        }
+
+        .auth-header h1 {
+          font-size: 2rem;
+          margin-bottom: 8px;
+        }
+
+        .auth-header p {
+          opacity: 0.92;
+          font-size: 0.95rem;
+        }
+
+        .auth-body {
+          padding: 24px;
+        }
+
+        .tabs {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 10px;
+          margin-bottom: 18px;
+          background: #f1f5f9;
+          padding: 6px;
+          border-radius: 14px;
+        }
+
+        .tab-btn {
+          border: none;
+          background: transparent;
+          padding: 12px;
+          border-radius: 10px;
+          cursor: pointer;
+          font-weight: 700;
+          color: var(--muted);
+          transition: 0.25s;
+        }
+
+        .tab-btn.active {
+          background: white;
+          color: var(--primary);
+          box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+        }
+
+        .form-group {
+          margin-bottom: 14px;
+        }
+
+        label {
+          display: block;
+          margin-bottom: 8px;
+          font-size: 0.95rem;
+          font-weight: 700;
+          color: var(--text);
+        }
+
+        input {
+          width: 100%;
+          padding: 14px 15px;
+          border: 1px solid var(--border);
+          border-radius: 12px;
+          outline: none;
+          font-size: 1rem;
+          transition: 0.25s;
+        }
+
+        input:focus {
+          border-color: var(--primary);
+          box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.12);
+        }
+
+        .btn {
+          width: 100%;
+          border: none;
+          padding: 14px;
+          border-radius: 12px;
+          background: var(--primary);
+          color: white;
+          font-size: 1rem;
+          font-weight: 700;
+          cursor: pointer;
+          margin-top: 8px;
+          transition: 0.25s;
+        }
+
+        .btn:hover {
+          background: var(--primary-dark);
+        }
+
+        .note {
+          margin-top: 14px;
+          font-size: 0.92rem;
+          color: var(--muted);
+          text-align: center;
+        }
+
+        .hidden {
+          display: none;
+        }
+
+        .error {
+          margin-top: 10px;
+          color: #dc2626;
+          font-size: 0.92rem;
+          text-align: center;
+          min-height: 20px;
+        }
+
+        .success {
+          margin-top: 10px;
+          color: #16a34a;
+          font-size: 0.92rem;
+          text-align: center;
+          min-height: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="auth-card">
+    <div class="auth-header">
+        <h1>Sport Hub</h1>
+        <p>Book sports fields easily</p>
+    </div>
+
+    <div class="auth-body">
+        <div class="tabs">
+            <button class="tab-btn active" id="loginTab" onclick="showLogin()">Login</button>
+            <button class="tab-btn" id="registerTab" onclick="showRegister()">Register</button>
+        </div>
+
+        <!-- LOGIN FORM -->
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="loginEmail">Email</label>
+                <input type="email" id="loginEmail" placeholder="Enter your email" required />
+            </div>
+
+            <div class="form-group">
+                <label for="loginPassword">Password</label>
+                <input type="password" id="loginPassword" placeholder="Enter your password" required />
+            </div>
+
+            <button type="button" class="btn" onclick="loginUser()">Login</button>
+            <div class="error" id="loginError"></div>
+        </form>
+
+        <!-- REGISTER FORM -->
+        <form id="registerForm" class="hidden">
+            <div class="form-group">
+                <label for="registerName">Full Name</label>
+                <input type="text" id="registerName" placeholder="Enter your name" required />
+            </div>
+
+            <div class="form-group">
+                <label for="registerEmail">Email</label>
+                <input type="email" id="registerEmail" placeholder="Enter your email" required />
+            </div>
+
+            <div class="form-group">
+                <label for="registerPassword">Password</label>
+                <input type="password" id="registerPassword" placeholder="Create a password" required />
+            </div>
+
+            <button type="button" class="btn" onclick="registerUser()">Create Account</button>
+            <div class="success" id="registerSuccess"></div>
+        </form>
+
+        <p class="note">
+            This is a frontend demo for your project.
+        </p>
+    </div>
+</div>
+
+<script>
+    function showLogin() {
+      document.getElementById("loginForm").classList.remove("hidden");
+      document.getElementById("registerForm").classList.add("hidden");
+      document.getElementById("loginTab").classList.add("active");
+      document.getElementById("registerTab").classList.remove("active");
+      document.getElementById("loginError").textContent = "";
+      document.getElementById("registerSuccess").textContent = "";
+    }
+
+    function showRegister() {
+      document.getElementById("registerForm").classList.remove("hidden");
+      document.getElementById("loginForm").classList.add("hidden");
+      document.getElementById("registerTab").classList.add("active");
+      document.getElementById("loginTab").classList.remove("active");
+      document.getElementById("loginError").textContent = "";
+      document.getElementById("registerSuccess").textContent = "";
+    }
+
+    function registerUser() {
+      const name = document.getElementById("registerName").value.trim();
+      const email = document.getElementById("registerEmail").value.trim();
+      const password = document.getElementById("registerPassword").value.trim();
+
+      if (!name || !email || !password) {
+        document.getElementById("registerSuccess").textContent = "Please fill in all fields.";
+        return;
+      }
+
+      localStorage.setItem("sportHubUser", JSON.stringify({
+        name: name,
+        email: email,
+        password: password
+      }));
+
+      document.getElementById("registerSuccess").textContent = "Account created successfully. You can log in now.";
+      document.getElementById("registerName").value = "";
+      document.getElementById("registerEmail").value = "";
+      document.getElementById("registerPassword").value = "";
+
+      showLogin();
+    }
+
+    function loginUser() {
+      const email = document.getElementById("loginEmail").value.trim();
+      const password = document.getElementById("loginPassword").value.trim();
+      const savedUser = JSON.parse(localStorage.getItem("sportHubUser"));
+
+      if (!savedUser) {
+        document.getElementById("loginError").textContent = "No account found. Please register first.";
+        return;
+      }
+
+      if (email === savedUser.email && password === savedUser.password) {
+        localStorage.setItem("isLoggedIn", "true");
+        window.location.href = "index.html";
+      } else {
+        document.getElementById("loginError").textContent = "Wrong email or password.";
+      }
+    }
+</script>
+
+</body>
+</html>
