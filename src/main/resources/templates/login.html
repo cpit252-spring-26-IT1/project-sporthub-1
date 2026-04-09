@@ -221,7 +221,7 @@
 </div>
 
 <script>
-    function showLogin() {
+  function showLogin() {
       document.getElementById("loginForm").classList.remove("hidden");
       document.getElementById("registerForm").classList.add("hidden");
       document.getElementById("loginTab").classList.add("active");
@@ -239,6 +239,7 @@
       document.getElementById("registerSuccess").textContent = "";
     }
 
+    // --- دالة تسجيل حساب جديد ---
     function registerUser() {
       const name = document.getElementById("registerName").value.trim();
       const email = document.getElementById("registerEmail").value.trim();
@@ -246,41 +247,65 @@
 
       if (!name || !email || !password) {
         document.getElementById("registerSuccess").textContent = "Please fill in all fields.";
+        document.getElementById("registerSuccess").style.color = "#dc2626";
         return;
       }
 
-      localStorage.setItem("sportHubUser", JSON.stringify({
-        name: name,
-        email: email,
-        password: password
-      }));
-
-      document.getElementById("registerSuccess").textContent = "Account created successfully. You can log in now.";
-      document.getElementById("registerName").value = "";
-      document.getElementById("registerEmail").value = "";
-      document.getElementById("registerPassword").value = "";
-
-      showLogin();
+      fetch('/api/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: name, email: email, password: password })
+      })
+      .then(response => response.json())
+      .then(data => {
+          
+          if (data.message === "Account created successfully!") {
+              document.getElementById("registerSuccess").textContent = data.message;
+              document.getElementById("registerSuccess").style.color = "#16a34a";
+              
+              document.getElementById("registerName").value = "";
+              document.getElementById("registerEmail").value = "";
+              document.getElementById("registerPassword").value = "";
+              setTimeout(showLogin, 2000);
+          } else {
+              document.getElementById("registerSuccess").textContent = data.message;
+              document.getElementById("registerSuccess").style.color = "#dc2626"; 
+          }
+      })
+      .catch(error => console.error('Error:', error));
     }
 
     function loginUser() {
       const email = document.getElementById("loginEmail").value.trim();
       const password = document.getElementById("loginPassword").value.trim();
-      const savedUser = JSON.parse(localStorage.getItem("sportHubUser"));
 
-      if (!savedUser) {
-        document.getElementById("loginError").textContent = "No account found. Please register first.";
+      if (!email || !password) {
+        document.getElementById("loginError").textContent = "Please enter email and password.";
         return;
       }
 
-      if (email === savedUser.email && password === savedUser.password) {
-        localStorage.setItem("isLoggedIn", "true");
-        window.location.href = "index.html";
-      } else {
-        document.getElementById("loginError").textContent = "Wrong email or password.";
-      }
+      fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: email, password: password })
+      })
+      .then(response => {
+          if (response.ok) {
+              return response.json();
+          } else {
+              throw new Error("Wrong email or password.");
+          }
+      })
+      .then(data => {
+          localStorage.setItem("isLoggedIn", "true");
+          localStorage.setItem("userName", data.name);
+          
+          window.location.href = "/";
+      })
+      .catch(error => {
+          document.getElementById("loginError").textContent = error.message;
+      });
     }
-
 </script>
 
 </body>

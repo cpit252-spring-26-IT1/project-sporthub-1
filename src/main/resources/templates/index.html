@@ -1,12 +1,622 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Page Title</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sport Hub</title>
+
+    <script>
+        if (localStorage.getItem("isLoggedIn") !== "true") {
+          window.location.href = "/login";
+        }
+    </script>
+
+    <style>
+        :root {
+          --primary: #0f766e;
+          --primary-dark: #115e59;
+          --secondary: #e0f2f1;
+          --text: #1f2937;
+          --muted: #6b7280;
+          --bg: #f8fafc;
+          --card: #ffffff;
+          --border: #e5e7eb;
+          --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+          --radius: 18px;
+        }
+
+        * {
+          box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+          font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+          background: var(--bg);
+          color: var(--text);
+          line-height: 1.7;
+        }
+
+        a {
+          text-decoration: none;
+          color: inherit;
+        }
+
+        .container {
+          width: min(1200px, 92%);
+          margin: auto;
+        }
+
+        header {
+          background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+          color: white;
+          padding-bottom: 70px;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .topbar {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 22px 0;
+          gap: 20px;
+          flex-wrap: wrap;
+        }
+
+        .logo {
+          font-size: 1.7rem;
+          font-weight: 800;
+          letter-spacing: 0.5px;
+        }
+
+        nav ul {
+          list-style: none;
+          display: flex;
+          gap: 22px;
+          flex-wrap: wrap;
+          align-items: center;
+        }
+
+        nav a {
+          color: white;
+          opacity: 0.95;
+          transition: 0.3s;
+          font-weight: 600;
+        }
+
+        nav a:hover {
+          opacity: 1;
+          text-decoration: underline;
+        }
+
+        .logout-btn {
+          background: rgba(255,255,255,0.15);
+          border: 1px solid rgba(255,255,255,0.25);
+          color: white;
+          padding: 10px 14px;
+          border-radius: 10px;
+          cursor: pointer;
+          font-weight: 700;
+        }
+
+        .hero {
+          display: grid;
+          grid-template-columns: 1.2fr 0.8fr;
+          gap: 30px;
+          align-items: center;
+          padding: 50px 0 20px;
+        }
+
+        .hero h1 {
+          font-size: clamp(2rem, 5vw, 3.6rem);
+          line-height: 1.2;
+          margin-bottom: 18px;
+        }
+
+        .hero p {
+          color: rgba(255, 255, 255, 0.9);
+          font-size: 1.05rem;
+          max-width: 650px;
+          margin-bottom: 28px;
+        }
+
+        .search-box {
+          background: rgba(255, 255, 255, 0.12);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.18);
+          border-radius: var(--radius);
+          padding: 18px;
+          box-shadow: var(--shadow);
+        }
+
+        .search-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 12px;
+        }
+
+        .search-grid input,
+        .search-grid select,
+        .search-grid button {
+          width: 100%;
+          padding: 14px 16px;
+          border: none;
+          border-radius: 12px;
+          font-size: 1rem;
+          outline: none;
+        }
+
+        .search-grid input,
+        .search-grid select {
+          background: white;
+          color: var(--text);
+        }
+
+        .search-grid button {
+          background: #facc15;
+          color: #111827;
+          font-weight: 700;
+          cursor: pointer;
+          transition: 0.3s;
+        }
+
+        .search-grid button:hover {
+          background: #f59e0b;
+        }
+
+        .hero-card {
+          background: rgba(255, 255, 255, 0.12);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.16);
+          border-radius: var(--radius);
+          padding: 24px;
+          box-shadow: var(--shadow);
+        }
+
+        .hero-card h3 {
+          margin-bottom: 12px;
+          font-size: 1.2rem;
+        }
+
+        .hero-card ul {
+          list-style: none;
+          display: grid;
+          gap: 12px;
+          color: rgba(255, 255, 255, 0.95);
+        }
+
+        .hero-card li {
+          padding: 12px 14px;
+          background: rgba(255, 255, 255, 0.08);
+          border-radius: 12px;
+        }
+
+        main {
+          margin-top: -35px;
+        }
+
+        section {
+          margin-bottom: 34px;
+        }
+
+        .section-title {
+          display: flex;
+          justify-content: space-between;
+          align-items: end;
+          gap: 10px;
+          margin-bottom: 18px;
+          flex-wrap: wrap;
+        }
+
+        .section-title h2 {
+          font-size: 1.6rem;
+          color: var(--text);
+        }
+
+        .section-title p {
+          color: var(--muted);
+        }
+
+        .cards {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+          gap: 18px;
+        }
+
+        .card {
+          background: var(--card);
+          border: 1px solid var(--border);
+          border-radius: var(--radius);
+          box-shadow: var(--shadow);
+          overflow: hidden;
+          transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 14px 38px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-img {
+          height: 160px;
+          background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 1.2rem;
+          font-weight: 700;
+          color: #065f46;
+        }
+
+        .card-body {
+          padding: 16px;
+        }
+
+        .card-body h3 {
+          margin-bottom: 8px;
+          font-size: 1.1rem;
+        }
+
+        .meta {
+          color: var(--muted);
+          font-size: 0.95rem;
+          margin-bottom: 12px;
+        }
+
+        .row {
+          display: flex;
+          justify-content: space-between;
+          gap: 10px;
+          align-items: center;
+          flex-wrap: wrap;
+        }
+
+        .price {
+          color: var(--primary);
+          font-weight: 800;
+        }
+
+        .btn {
+          display: inline-block;
+          background: var(--primary);
+          color: white;
+          padding: 10px 16px;
+          border-radius: 10px;
+          font-weight: 700;
+          transition: 0.3s;
+          border: none;
+          cursor: pointer;
+        }
+
+        .btn:hover {
+          background: var(--primary-dark);
+        }
+
+        .features {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+          gap: 16px;
+        }
+
+        .feature {
+          background: white;
+          border: 1px solid var(--border);
+          border-radius: var(--radius);
+          padding: 20px;
+          box-shadow: var(--shadow);
+        }
+
+        .feature h3 {
+          margin-bottom: 10px;
+          color: var(--primary);
+        }
+
+        .stats {
+          background: white;
+          border: 1px solid var(--border);
+          border-radius: var(--radius);
+          padding: 22px;
+          box-shadow: var(--shadow);
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+          gap: 16px;
+        }
+
+        .stat {
+          text-align: center;
+          padding: 10px;
+        }
+
+        .stat strong {
+          display: block;
+          font-size: 2rem;
+          color: var(--primary);
+          margin-bottom: 5px;
+        }
+
+        footer {
+          margin-top: 40px;
+          background: #0f172a;
+          color: white;
+          padding: 26px 0;
+        }
+
+        .footer-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+          gap: 18px;
+          align-items: start;
+        }
+
+        .footer-grid p,
+        .footer-grid a {
+          color: #cbd5e1;
+          display: block;
+          margin-top: 8px;
+        }
+
+        .copyright {
+          margin-top: 18px;
+          text-align: center;
+          color: #94a3b8;
+          font-size: 0.95rem;
+        }
+
+        @media (max-width: 900px) {
+          .hero {
+            grid-template-columns: 1fr;
+          }
+
+          .search-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+    </style>
 </head>
 <body>
 
-<h1>This is a Heading</h1>
-<p>This is a paragraph.</p>
+<header>
+    <div class="container">
+        <div class="topbar">
+            <div class="logo">Sport Hub</div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#sports">Sports</a></li>
+                    <li><a href="#fields">Fields</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><button class="logout-btn" onclick="logout()">Logout</button></li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="hero" id="home">
+            <div>
+                <h1>Book Your Sports Field Easily</h1>
+                <p>
+                    A platform that brings sports fields and activity centers into one place,
+                    with search, ratings, prices, and booking options to save time and effort.
+                </p>
+
+                <div class="search-box">
+                    <div class="search-grid">
+                        <input type="text" placeholder="Search for a field or activity..." />
+                        <select>
+                            <option>Choose Sport</option>
+                            <option>Football</option>
+                            <option>Volleyball</option>
+                            <option>Table Tennis</option>
+                            <option>Padel</option>
+                        </select>
+                        <button>Search Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-card">
+                <h3>Why Sport Hub?</h3>
+                <ul>
+                    <li>Fast and simple booking</li>
+                    <li>Fields near your location</li>
+                    <li>User ratings and reviews</li>
+                    <li>Easy to expand with new sections</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="container">
+
+    <section id="sports">
+        <div class="section-title">
+            <h2>Available Sports</h2>
+            <p>Add or remove any category later</p>
+        </div>
+
+        <div class="cards">
+            <div class="card">
+                <div class="card-img">Football</div>
+                <div class="card-body">
+                    <h3>Football Fields</h3>
+                    <div class="meta">Suitable for daily booking and tournaments</div>
+                    <div class="row">
+                        <span class="price">From 120 SAR</span>
+                        <a class="btn" href="#">View</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-img">Padel</div>
+                <div class="card-body">
+                    <h3>Padel Courts</h3>
+                    <div class="meta">A great option for quick bookings with friends</div>
+                    <div class="row">
+                        <span class="price">From 150 SAR</span>
+                        <a class="btn" href="#">View</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-img">Table Tennis</div>
+                <div class="card-body">
+                    <h3>Table Tennis</h3>
+                    <div class="meta">Suitable for clubs and sports centers</div>
+                    <div class="row">
+                        <span class="price">From 50 SAR</span>
+                        <a class="btn" href="#">View</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-img">Volleyball</div>
+                <div class="card-body">
+                    <h3>Volleyball Courts</h3>
+                    <div class="meta">Indoor or outdoor depending on the location</div>
+                    <div class="row">
+                        <span class="price">From 100 SAR</span>
+                        <a class="btn" href="#">View</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="fields">
+        <div class="section-title">
+            <h2>Featured Fields</h2>
+            <p>This area is ready for booking cards</p>
+        </div>
+
+        <div class="cards">
+            <div class="card">
+                <div class="card-img">Field Image</div>
+                <div class="card-body">
+                    <h3>Elite Stadium</h3>
+                    <div class="meta">Jeddah - Al Rawdah</div>
+                    <div class="row">
+                        <span class="price">4.8 ★</span>
+                        <a class="btn" href="#">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-img">Field Image</div>
+                <div class="card-body">
+                    <h3>Sports Academy</h3>
+                    <div class="meta">Jeddah - Al Salamah</div>
+                    <div class="row">
+                        <span class="price">4.7 ★</span>
+                        <a class="btn" href="#">Book Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-img">Field Image</div>
+                <div class="card-body">
+                    <h3>Champions Center</h3>
+                    <div class="meta">Jeddah - Al Hamra</div>
+                    <div class="row">
+                        <span class="price">4.9 ★</span>
+                        <a class="btn" href="#">Book Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features">
+        <div class="section-title">
+            <h2>Platform Features</h2>
+            <p>Use this section to explain the value of the system</p>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <h3>Smart Search</h3>
+                <p>Search for fields by sport, location, and rating.</p>
+            </div>
+            <div class="feature">
+                <h3>Direct Booking</h3>
+                <p>Book from the same page without complicated steps.</p>
+            </div>
+            <div class="feature">
+                <h3>User Reviews</h3>
+                <p>Show user feedback to help visitors choose the best place.</p>
+            </div>
+            <div class="feature">
+                <h3>Expandable Design</h3>
+                <p>Add more cards, categories, and sections anytime.</p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="stats">
+            <div class="stat">
+                <strong>120+</strong>
+                <span>Fields</span>
+            </div>
+            <div class="stat">
+                <strong>8</strong>
+                <span>Sports</span>
+            </div>
+            <div class="stat">
+                <strong>4.9</strong>
+                <span>Average Rating</span>
+            </div>
+            <div class="stat">
+                <strong>24/7</strong>
+                <span>Booking Available</span>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer id="contact">
+    <div class="container">
+        <div class="footer-grid">
+            <div>
+                <h3>Sport Hub</h3>
+                <p>A platform for booking sports fields and activities easily and quickly.</p>
+            </div>
+
+            <div>
+                <h4>Quick Links</h4>
+                <a href="#home">Home</a>
+                <a href="#sports">Sports</a>
+                <a href="#fields">Fields</a>
+            </div>
+
+            <div>
+                <h4>Contact Us</h4>
+                <p>email@example.com</p>
+                <p>+966 50 000 0000</p>
+            </div>
+        </div>
+
+        <div class="copyright">
+            © 2026 Sport Hub — All rights reserved
+        </div>
+    </div>
+</footer>
+
+<script>
+    function logout() {
+      localStorage.removeItem("isLoggedIn");
+      window.location.href = "/login";
+    }
+    
+</script>
 
 </body>
 </html>
