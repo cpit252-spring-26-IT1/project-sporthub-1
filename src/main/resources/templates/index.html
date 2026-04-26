@@ -339,7 +339,7 @@
         footer {
           margin-top: 40px;
           background: #0f172a;
-          color: white;
+          color: black;
           padding: 26px 0;
         }
 
@@ -373,6 +373,106 @@
             grid-template-columns: 1fr;
           }
         }
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: var(--radius);
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            position: relative;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px; right: 25px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--muted);
+            transition: 0.3s;
+        }
+
+        .close-btn:hover { color: #ef4444; }
+
+        .modal-title {
+            color: var(--primary-dark);
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 10px;
+        }
+
+        .extra-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .extra-option:hover { border-color: var(--primary); }
+
+        .extra-option label {
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .extra-price {
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border);
+        }
+
+        .total-price {
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: var(--text);
+        }
+
+        .confirm-btn {
+            background: var(--primary);
+            color: black;
+            padding: 12px 24px;
+            border-radius: 10px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .confirm-btn:hover { background: var(--primary-dark); }
     </style>
 </head>
 <body>
@@ -437,101 +537,19 @@
             <p>Add or remove any category later</p>
         </div>
 
-        <div class="cards">
-            <div class="card">
-                <div class="card-img">Football</div>
-                <div class="card-body">
-                    <h3>Football Fields</h3>
-                    <div class="meta">Suitable for daily booking and tournaments</div>
-                    <div class="row">
-                        <span class="price">From 120 SAR</span>
-                        <a class="btn" href="#">View</a>
-                    </div>
-                </div>
+        <div class="cards" id="sports-container">
             </div>
-
-            <div class="card">
-                <div class="card-img">Padel</div>
-                <div class="card-body">
-                    <h3>Padel Courts</h3>
-                    <div class="meta">A great option for quick bookings with friends</div>
-                    <div class="row">
-                        <span class="price">From 150 SAR</span>
-                        <a class="btn" href="#">View</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-img">Table Tennis</div>
-                <div class="card-body">
-                    <h3>Table Tennis</h3>
-                    <div class="meta">Suitable for clubs and sports centers</div>
-                    <div class="row">
-                        <span class="price">From 50 SAR</span>
-                        <a class="btn" href="#">View</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-img">Volleyball</div>
-                <div class="card-body">
-                    <h3>Volleyball Courts</h3>
-                    <div class="meta">Indoor or outdoor depending on the location</div>
-                    <div class="row">
-                        <span class="price">From 100 SAR</span>
-                        <a class="btn" href="#">View</a>
-                    </div>
-                </div>
-            </div>
-        </div>
     </section>
 
     <section id="fields">
         <div class="section-title">
             <h2>Featured Fields</h2>
-            <p>This area is ready for booking cards</p>
+            <p>Find and book the best fields in Jeddah</p>
         </div>
 
-        <div class="cards">
-            <div class="card">
-                <div class="card-img">Field Image</div>
-                <div class="card-body">
-                    <h3>Elite Stadium</h3>
-                    <div class="meta">Jeddah - Al Rawdah</div>
-                    <div class="row">
-                        <span class="price">4.8 ★</span>
-                        <a class="btn" href="#">Book Now</a>
-                    </div>
-                </div>
+        <div class="cards" id="fields-container">
             </div>
-
-            <div class="card">
-                <div class="card-img">Field Image</div>
-                <div class="card-body">
-                    <h3>Sports Academy</h3>
-                    <div class="meta">Jeddah - Al Salamah</div>
-                    <div class="row">
-                        <span class="price">4.7 ★</span>
-                        <a class="btn" href="#">Book Now</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-img">Field Image</div>
-                <div class="card-body">
-                    <h3>Champions Center</h3>
-                    <div class="meta">Jeddah - Al Hamra</div>
-                    <div class="row">
-                        <span class="price">4.9 ★</span>
-                        <a class="btn" href="#">Book Now</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+      </section>
 
     <section id="features">
         <div class="section-title">
@@ -600,7 +618,7 @@
             <div>
                 <h4>Contact Us</h4>
                 <p>email@example.com</p>
-                <p>+966 50 000 0000</p>
+                <p>+966 54 124 6461</p>
             </div>
         </div>
 
@@ -608,15 +626,218 @@
             © 2026 Sport Hub — All rights reserved
         </div>
     </div>
-</footer>
-
-<script>
-    function logout() {
-      localStorage.removeItem("isLoggedIn");
-      window.location.href = "/login";
-    }
     
-</script>
+    <div id="bookingModal" class="modal-overlay">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <h2 class="modal-title" id="modal-title">Confirm Booking</h2>
+        
+        <div class="extra-option">
+            <label>
+                <input type="checkbox" id="addReferee" onchange="updateTotal()">
+                Add referee service
+            </label>
+            <span class="extra-price">+50 SAR</span>
+        </div>
 
+        <div class="extra-option">
+            <label>
+                <input type="checkbox" id="addEquipment" onchange="updateTotal()">
+                Add sports equipment rental
+            </label>
+            <span class="extra-price">+30 SAR</span>
+        </div>
+
+        <div class="modal-footer">
+            <div class="total-price" id="modal-total">Total: 0 SAR</div>
+            <button class="confirm-btn" onclick="submitBooking()">Confirm and Pay</button>
+        </div>
+    </div>
+</div>
+</footer>
+<script>
+   //tests before put the real data from the DB
+    const fieldsData = [
+        { id: 1, name: "Elite Stadium", location: "Jeddah - Al Rawdah", sport: "Football", rating: "4.8", price: 150 },
+        { id: 2, name: "Sports Academy", location: "Jeddah - Al Salamah", sport: "Padel", rating: "4.7", price: 200 },
+        { id: 3, name: "Champions Center", location: "Jeddah - Al Hamra", sport: "Football", rating: "4.9", price: 120 },
+        { id: 4, name: "Smash Arena", location: "Jeddah - Obhur", sport: "Volleyball", rating: "4.5", price: 100 }
+    ];
+    const sportsData = [
+        { name: "Football", desc: "Suitable for daily booking and tournaments", price: "120", bg: "#d1fae5", color: "#065f46" },
+        { name: "Padel", desc: "A great option for quick bookings with friends", price: "150", bg: "#d1fae5", color: "#065f46" },
+        { name: "Table Tennis", desc: "Suitable for clubs and sports centers", price: "50", bg: "#d1fae5", color: "#065f46" },
+        { name: "Volleyball", desc: "Indoor or outdoor depending on the location", price: "100", bg: "#d1fae5", color: "#065f46" }
+    ];
+
+  
+    
+    function renderFields(fieldsToRender) {
+        const container = document.getElementById('fields-container');
+        container.innerHTML = ''; 
+
+        if(fieldsToRender.length === 0) {
+            container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--muted);">No fields match your search.</p>';
+            return;
+        }
+
+        fieldsToRender.forEach(field => {
+            const cardHTML = `
+                <div class="card">
+                    <div class="card-img" style="background: linear-gradient(135deg, #bfdbfe, #93c5fd); color: #1e3a8a;">
+                        ${field.sport}
+                    </div>
+                    <div class="card-body">
+                        <h3>${field.name}</h3>
+                        <div class="meta">${field.location}</div>
+                        <div class="row">
+                            <span class="price">${field.rating} ★</span>
+                            <button class="btn" onclick="bookField(${field.id}, '${field.name}')">Book Now</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.innerHTML += cardHTML;
+        });
+    }
+    function renderSports() {
+        const container = document.getElementById('sports-container');
+        container.innerHTML = '';
+
+        sportsData.forEach(sport => {
+            const cardHTML = `
+                <div class="card" style="cursor: pointer;" onclick="filterBySportCard('${sport.name}')">
+                    <div class="card-img" style="background: ${sport.bg}; color: ${sport.color};">
+                        ${sport.name}
+                    </div>
+                    <div class="card-body">
+                        <h3>${sport.name} Fields</h3>
+                        <div class="meta">${sport.desc}</div>
+                        <div class="row">
+                            <span class="price">From ${sport.price} SAR</span>
+                            <button class="btn" style="pointer-events: none;">View</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.innerHTML += cardHTML;
+        });
+    }
+
+  
+    function filterBySportCard(sportName) {
+  
+        const sportSelect = document.querySelector('.search-grid select');
+        sportSelect.value = sportName;
+
+        const filteredFields = fieldsData.filter(field => field.sport === sportName);
+        renderFields(filteredFields);
+
+        document.getElementById('fields').scrollIntoView({ behavior: 'smooth' });
+    }
+
+  
+
+
+   
+    let currentBookingDetails = null; //save the detials of the current booking to use in the modal and submission
+
+   
+    function bookField(id, name) {
+     
+        const field = fieldsData.find(f => f.id === id);
+        const basePrice = field ? parseInt(field.price) : 150;
+
+      
+        currentBookingDetails = { id, name, basePrice };
+
+       
+        document.getElementById('modal-title').innerText = `Book: ${name}`;
+        document.getElementById('addReferee').checked = false;
+        document.getElementById('addEquipment').checked = false;
+        updateTotal(); 
+
+    
+        document.getElementById('bookingModal').style.display = 'flex';
+    }
+
+  
+    function closeModal() {
+        document.getElementById('bookingModal').style.display = 'none';
+    }
+
+
+    function updateTotal() {
+        let total = currentBookingDetails.basePrice;
+        if (document.getElementById('addReferee').checked) total += 50;
+        if (document.getElementById('addEquipment').checked) total += 30;
+        
+        document.getElementById('modal-total').innerText = `Total: ${total} SAR`;
+    }
+
+    async function submitBooking() {
+        const addRef = document.getElementById('addReferee').checked;
+        const addEq = document.getElementById('addEquipment').checked;
+
+       
+        const url = `/api/booking/make?fieldName=${encodeURIComponent(currentBookingDetails.name)}&basePrice=${currentBookingDetails.basePrice}&addReferee=${addRef}&addEquipment=${addEq}`;
+
+        try {
+           
+            const btn = document.querySelector('.confirm-btn');
+            btn.innerText = "Processing...";
+            btn.style.pointerEvents = "none";
+
+            const response = await fetch(url, { method: 'POST' });
+            if (response.ok) {
+                const data = await response.json();
+                localStorage.setItem("lastReceipt", JSON.stringify(data));
+                window.location.href = "/confirmation.html";
+            } else {
+                alert("Something went wrong with the booking. Please try again.");
+                btn.innerText = "Confirm and Pay";
+                btn.style.pointerEvents = "auto";
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("Something went wrong from the server. Please try again.");
+            closeModal();
+        }
+    }
+
+    
+    function setupSearch() {
+        const searchInput = document.querySelector('.search-grid input');
+        const sportSelect = document.querySelector('.search-grid select');
+        const searchBtn = document.querySelector('.search-grid button');
+
+        searchBtn.addEventListener('click', () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            const selectedSport = sportSelect.value;
+
+            const filteredFields = fieldsData.filter(field => {
+                const matchesName = field.name.toLowerCase().includes(searchTerm) || field.location.toLowerCase().includes(searchTerm);
+                const matchesSport = (selectedSport === "Choose Sport") || (field.sport === selectedSport);
+                
+                return matchesName && matchesSport;
+            });
+
+            renderFields(filteredFields);
+        });
+    }
+
+   
+    document.addEventListener('DOMContentLoaded', () => {
+        renderFields(fieldsData); 
+        setupSearch(); 
+        renderSports(); 
+    });
+
+
+    function logout() {
+        localStorage.removeItem("isLoggedIn");
+        window.location.href = "/login";
+    }
+</script>
 </body>
 </html>

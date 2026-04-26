@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmation Book | Sport Hub</title>
+    <style>
+        body { font-family: sans-serif; background: #f8fafc; display: flex; justify-content: center; padding-top: 50px; }
+        .receipt { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 400px; text-align: center; }
+        h1 { color: #0f766e; }
+        .details { text-align: right; margin: 25px 0; border-top: 1px dashed #ccc; padding-top: 15px; }
+        .total { font-size: 1.5rem; font-weight: bold; color: #115e59; }
+        .btn-home { display: block; margin-top: 20px; padding: 12px; background: #0f766e; color: white; text-decoration: none; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <div class="receipt">
+        <h1>Booking Confirmed! 🎉</h1>
+        <div class="details" id="receipt-content">
+            </div>
+        <a href="/" class="btn-home">Back to Home</a>
+    </div>
+
+    <script>
+        const receiptData = JSON.parse(localStorage.getItem("lastReceipt"));
+        if (receiptData) {
+            document.getElementById('receipt-content').innerHTML = `
+                <p><strong>Order Status:</strong> ${receiptData.status}</p>
+                <p><strong>Description:</strong> ${receiptData.finalDescription}</p>
+                <hr>
+                <p class="total">Total: ${receiptData.totalCost} SAR</p>
+           ` ;
+        }
+    </script>
+</body>
+</html>

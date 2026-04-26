@@ -213,10 +213,6 @@
             <button type="button" class="btn" onclick="registerUser()">Create Account</button>
             <div class="success" id="registerSuccess"></div>
         </form>
-
-        <p class="note">
-            This is a frontend demo for your project.
-        </p>
     </div>
 </div>
 
@@ -239,7 +235,7 @@
       document.getElementById("registerSuccess").textContent = "";
     }
 
-    // --- دالة تسجيل حساب جديد ---
+
     function registerUser() {
       const name = document.getElementById("registerName").value.trim();
       const email = document.getElementById("registerEmail").value.trim();
