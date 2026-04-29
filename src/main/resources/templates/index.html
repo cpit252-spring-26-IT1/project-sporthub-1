@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,376 +8,380 @@
 
     <script>
         if (localStorage.getItem("isLoggedIn") !== "true") {
-          window.location.href = "/login";
+            window.location.href = "/login";
         }
     </script>
 
     <style>
         :root {
-          --primary: #0f766e;
-          --primary-dark: #115e59;
-          --secondary: #e0f2f1;
-          --text: #1f2937;
-          --muted: #6b7280;
-          --bg: #f8fafc;
-          --card: #ffffff;
-          --border: #e5e7eb;
-          --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-          --radius: 18px;
+            --primary: #0f766e;
+            --primary-dark: #115e59;
+            --secondary: #e0f2f1;
+            --text: #1f2937;
+            --muted: #6b7280;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --border: #e5e7eb;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --radius: 18px;
         }
 
         * {
-          box-sizing: border-box;
-          margin: 0;
-          padding: 0;
-          font-family: Arial, Helvetica, sans-serif;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
         body {
-          background: var(--bg);
-          color: var(--text);
-          line-height: 1.7;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
         }
 
         a {
-          text-decoration: none;
-          color: inherit;
+            text-decoration: none;
+            color: inherit;
         }
 
         .container {
-          width: min(1200px, 92%);
-          margin: auto;
+            width: min(1200px, 92%);
+            margin: auto;
         }
 
         header {
-          background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-          color: white;
-          padding-bottom: 70px;
-          position: relative;
-          overflow: hidden;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding-bottom: 70px;
+            position: relative;
+            overflow: hidden;
         }
 
         .topbar {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 22px 0;
-          gap: 20px;
-          flex-wrap: wrap;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 22px 0;
+            gap: 20px;
+            flex-wrap: wrap;
         }
 
         .logo {
-          font-size: 1.7rem;
-          font-weight: 800;
-          letter-spacing: 0.5px;
+            font-size: 1.7rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
         }
 
         nav ul {
-          list-style: none;
-          display: flex;
-          gap: 22px;
-          flex-wrap: wrap;
-          align-items: center;
+            list-style: none;
+            display: flex;
+            gap: 22px;
+            flex-wrap: wrap;
+            align-items: center;
         }
 
         nav a {
-          color: white;
-          opacity: 0.95;
-          transition: 0.3s;
-          font-weight: 600;
+            color: white;
+            opacity: 0.95;
+            transition: 0.3s;
+            font-weight: 600;
         }
 
         nav a:hover {
-          opacity: 1;
-          text-decoration: underline;
+            opacity: 1;
+            text-decoration: underline;
         }
 
         .logout-btn {
-          background: rgba(255,255,255,0.15);
-          border: 1px solid rgba(255,255,255,0.25);
-          color: white;
-          padding: 10px 14px;
-          border-radius: 10px;
-          cursor: pointer;
-          font-weight: 700;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: white;
+            padding: 10px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
         }
 
         .hero {
-          display: grid;
-          grid-template-columns: 1.2fr 0.8fr;
-          gap: 30px;
-          align-items: center;
-          padding: 50px 0 20px;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 30px;
+            align-items: center;
+            padding: 50px 0 20px;
         }
 
         .hero h1 {
-          font-size: clamp(2rem, 5vw, 3.6rem);
-          line-height: 1.2;
-          margin-bottom: 18px;
+            font-size: clamp(2rem, 5vw, 3.6rem);
+            line-height: 1.2;
+            margin-bottom: 18px;
         }
 
         .hero p {
-          color: rgba(255, 255, 255, 0.9);
-          font-size: 1.05rem;
-          max-width: 650px;
-          margin-bottom: 28px;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.05rem;
+            max-width: 650px;
+            margin-bottom: 28px;
         }
 
         .search-box {
-          background: rgba(255, 255, 255, 0.12);
-          backdrop-filter: blur(10px);
-          border: 1px solid rgba(255, 255, 255, 0.18);
-          border-radius: var(--radius);
-          padding: 18px;
-          box-shadow: var(--shadow);
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: var(--radius);
+            padding: 18px;
+            box-shadow: var(--shadow);
         }
 
         .search-grid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 12px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
         }
 
         .search-grid input,
         .search-grid select,
         .search-grid button {
-          width: 100%;
-          padding: 14px 16px;
-          border: none;
-          border-radius: 12px;
-          font-size: 1rem;
-          outline: none;
+            width: 100%;
+            padding: 14px 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            outline: none;
         }
 
         .search-grid input,
         .search-grid select {
-          background: white;
-          color: var(--text);
+            background: white;
+            color: var(--text);
         }
 
         .search-grid button {
-          background: #facc15;
-          color: #111827;
-          font-weight: 700;
-          cursor: pointer;
-          transition: 0.3s;
+            background: #facc15;
+            color: #111827;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
         }
 
         .search-grid button:hover {
-          background: #f59e0b;
+            background: #f59e0b;
         }
 
         .hero-card {
-          background: rgba(255, 255, 255, 0.12);
-          backdrop-filter: blur(10px);
-          border: 1px solid rgba(255, 255, 255, 0.16);
-          border-radius: var(--radius);
-          padding: 24px;
-          box-shadow: var(--shadow);
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: var(--shadow);
         }
 
         .hero-card h3 {
-          margin-bottom: 12px;
-          font-size: 1.2rem;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
         }
 
         .hero-card ul {
-          list-style: none;
-          display: grid;
-          gap: 12px;
-          color: rgba(255, 255, 255, 0.95);
+            list-style: none;
+            display: grid;
+            gap: 12px;
+            color: rgba(255, 255, 255, 0.95);
         }
 
         .hero-card li {
-          padding: 12px 14px;
-          background: rgba(255, 255, 255, 0.08);
-          border-radius: 12px;
+            padding: 12px 14px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
         }
 
         main {
-          margin-top: -35px;
+            margin-top: -35px;
         }
 
         section {
-          margin-bottom: 34px;
+            margin-bottom: 34px;
         }
 
         .section-title {
-          display: flex;
-          justify-content: space-between;
-          align-items: end;
-          gap: 10px;
-          margin-bottom: 18px;
-          flex-wrap: wrap;
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            gap: 10px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
         }
 
         .section-title h2 {
-          font-size: 1.6rem;
-          color: var(--text);
+            font-size: 1.6rem;
+            color: var(--text);
         }
 
         .section-title p {
-          color: var(--muted);
+            color: var(--muted);
         }
 
         .cards {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-          gap: 18px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 18px;
         }
 
         .card {
-          background: var(--card);
-          border: 1px solid var(--border);
-          border-radius: var(--radius);
-          box-shadow: var(--shadow);
-          overflow: hidden;
-          transition: transform 0.25s ease, box-shadow 0.25s ease;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
 
         .card:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 14px 38px rgba(0, 0, 0, 0.12);
+            transform: translateY(-4px);
+            box-shadow: 0 14px 38px rgba(0, 0, 0, 0.12);
         }
 
         .card-img {
-          height: 160px;
-          background: linear-gradient(135deg, #d1fae5, #a7f3d0);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 1.2rem;
-          font-weight: 700;
-          color: #065f46;
+            height: 160px;
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #065f46;
         }
 
         .card-body {
-          padding: 16px;
+            padding: 16px;
         }
 
         .card-body h3 {
-          margin-bottom: 8px;
-          font-size: 1.1rem;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
         }
 
         .meta {
-          color: var(--muted);
-          font-size: 0.95rem;
-          margin-bottom: 12px;
+            color: var(--muted);
+            font-size: 0.95rem;
+            margin-bottom: 12px;
         }
 
         .row {
-          display: flex;
-          justify-content: space-between;
-          gap: 10px;
-          align-items: center;
-          flex-wrap: wrap;
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
         }
 
         .price {
-          color: var(--primary);
-          font-weight: 800;
+            color: var(--primary);
+            font-weight: 800;
         }
 
         .btn {
-          display: inline-block;
-          background: var(--primary);
-          color: white;
-          padding: 10px 16px;
-          border-radius: 10px;
-          font-weight: 700;
-          transition: 0.3s;
-          border: none;
-          cursor: pointer;
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-weight: 700;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
         }
 
         .btn:hover {
-          background: var(--primary-dark);
+            background: var(--primary-dark);
         }
 
         .features {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-          gap: 16px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
         }
 
         .feature {
-          background: white;
-          border: 1px solid var(--border);
-          border-radius: var(--radius);
-          padding: 20px;
-          box-shadow: var(--shadow);
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
         }
 
         .feature h3 {
-          margin-bottom: 10px;
-          color: var(--primary);
+            margin-bottom: 10px;
+            color: var(--primary);
         }
 
         .stats {
-          background: white;
-          border: 1px solid var(--border);
-          border-radius: var(--radius);
-          padding: 22px;
-          box-shadow: var(--shadow);
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-          gap: 16px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 22px;
+            box-shadow: var(--shadow);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 16px;
         }
 
         .stat {
-          text-align: center;
-          padding: 10px;
+            text-align: center;
+            padding: 10px;
         }
 
         .stat strong {
-          display: block;
-          font-size: 2rem;
-          color: var(--primary);
-          margin-bottom: 5px;
+            display: block;
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 5px;
         }
 
         footer {
-          margin-top: 40px;
-          background: #0f172a;
-          color: black;
-          padding: 26px 0;
+            margin-top: 40px;
+            background: #0f172a;
+            color: black;
+            padding: 26px 0;
         }
 
         .footer-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-          gap: 18px;
-          align-items: start;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+            align-items: start;
         }
 
         .footer-grid p,
         .footer-grid a {
-          color: #cbd5e1;
-          display: block;
-          margin-top: 8px;
+            color: #cbd5e1;
+            display: block;
+            margin-top: 8px;
         }
 
         .copyright {
-          margin-top: 18px;
-          text-align: center;
-          color: #94a3b8;
-          font-size: 0.95rem;
+            margin-top: 18px;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 0.95rem;
         }
 
         @media (max-width: 900px) {
-          .hero {
-            grid-template-columns: 1fr;
-          }
+            .hero {
+                grid-template-columns: 1fr;
+            }
 
-          .search-grid {
-            grid-template-columns: 1fr;
-          }
+            .search-grid {
+                grid-template-columns: 1fr;
+            }
         }
+
         .modal-overlay {
             display: none;
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(5px);
             z-index: 1000;
@@ -390,26 +395,36 @@
             border-radius: var(--radius);
             width: 90%;
             max-width: 450px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
             position: relative;
             animation: slideUp 0.3s ease-out;
         }
 
         @keyframes slideUp {
-            from { transform: translateY(30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
         .close-btn {
             position: absolute;
-            top: 20px; right: 25px;
+            top: 20px;
+            right: 25px;
             font-size: 1.5rem;
             cursor: pointer;
             color: var(--muted);
             transition: 0.3s;
         }
 
-        .close-btn:hover { color: #ef4444; }
+        .close-btn:hover {
+            color: #ef4444;
+        }
 
         .modal-title {
             color: var(--primary-dark);
@@ -432,7 +447,9 @@
             transition: 0.2s;
         }
 
-        .extra-option:hover { border-color: var(--primary); }
+        .extra-option:hover {
+            border-color: var(--primary);
+        }
 
         .extra-option label {
             cursor: pointer;
@@ -472,217 +489,224 @@
             cursor: pointer;
             transition: 0.3s;
         }
-        .confirm-btn:hover { background: var(--primary-dark); }
+
+        .confirm-btn:hover {
+            background: var(--primary-dark);
+        }
     </style>
 </head>
+
 <body>
 
-<header>
-    <div class="container">
-        <div class="topbar">
-            <div class="logo">Sport Hub</div>
-            <nav>
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#sports">Sports</a></li>
-                    <li><a href="#fields">Fields</a></li>
-                    <li><a href="#features">Features</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                    <li><button class="logout-btn" onclick="logout()">Logout</button></li>
-                </ul>
-            </nav>
-        </div>
+    <header>
+        <div class="container">
+            <div class="topbar">
+                <div class="logo">Sport Hub</div>
+                <nav>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#sports">Sports</a></li>
+                        <li><a href="#fields">Fields</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        <li><button class="logout-btn" onclick="logout()">Logout</button></li>
+                    </ul>
+                </nav>
+            </div>
 
-        <div class="hero" id="home">
-            <div>
-                <h1>Book Your Sports Field Easily</h1>
-                <p>
-                    A platform that brings sports fields and activity centers into one place,
-                    with search, ratings, prices, and booking options to save time and effort.
-                </p>
+            <div class="hero" id="home">
+                <div>
+                    <h1>Book Your Sports Field Easily</h1>
+                    <p>
+                        A platform that brings sports fields and activity centers into one place,
+                        with search, ratings, prices, and booking options to save time and effort.
+                    </p>
 
-                <div class="search-box">
-                    <div class="search-grid">
-                        <input type="text" placeholder="Search for a field or activity..." />
-                        <select>
-                            <option>Choose Sport</option>
-                            <option>Football</option>
-                            <option>Volleyball</option>
-                            <option>Table Tennis</option>
-                            <option>Padel</option>
-                        </select>
-                        <button>Search Now</button>
+                    <div class="search-box">
+                        <div class="search-grid">
+                            <input type="text" id="searchInput" name="searchKeyword"
+                                placeholder="Search for a field or activity..." />
+
+                            <select id="sportSelect" name="sportCategory">
+                                <option>Choose Sport</option>
+                                <option>Football</option>
+                                <option>Volleyball</option>
+                                <option>Table Tennis</option>
+                                <option>Padel</option>
+                            </select>
+
+                            <button>Search Now</button>
+                        </div>
                     </div>
+                </div>
+
+                <div class="hero-card">
+                    <h3>Why Sport Hub?</h3>
+                    <ul>
+                        <li>Fast and simple booking</li>
+                        <li>Fields near your location</li>
+                        <li>User ratings and reviews</li>
+                        <li>Easy to expand with new sections</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <section id="sports">
+            <div class="section-title">
+                <h2>Available Sports</h2>
+                <p>Add or remove any category later</p>
+            </div>
+
+            <div class="cards" id="sports-container">
+            </div>
+        </section>
+
+        <section id="fields">
+            <div class="section-title">
+                <h2>Featured Fields</h2>
+                <p>Find and book the best fields in Jeddah</p>
+            </div>
+
+            <div class="cards" id="fields-container">
+            </div>
+        </section>
+
+        <section id="features">
+            <div class="section-title">
+                <h2>Platform Features</h2>
+                <p>Use this section to explain the value of the system</p>
+            </div>
+
+            <div class="features">
+                <div class="feature">
+                    <h3>Smart Search</h3>
+                    <p>Search for fields by sport, location, and rating.</p>
+                </div>
+                <div class="feature">
+                    <h3>Direct Booking</h3>
+                    <p>Book from the same page without complicated steps.</p>
+                </div>
+                <div class="feature">
+                    <h3>User Reviews</h3>
+                    <p>Show user feedback to help visitors choose the best place.</p>
+                </div>
+                <div class="feature">
+                    <h3>Expandable Design</h3>
+                    <p>Add more cards, categories, and sections anytime.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="stats">
+                <div class="stat">
+                    <strong>120+</strong>
+                    <span>Fields</span>
+                </div>
+                <div class="stat">
+                    <strong>8</strong>
+                    <span>Sports</span>
+                </div>
+                <div class="stat">
+                    <strong>4.9</strong>
+                    <span>Average Rating</span>
+                </div>
+                <div class="stat">
+                    <strong>24/7</strong>
+                    <span>Booking Available</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h3>Sport Hub</h3>
+                    <p>A platform for booking sports fields and activities easily and quickly.</p>
+                </div>
+
+                <div>
+                    <h4>Quick Links</h4>
+                    <a href="#home">Home</a>
+                    <a href="#sports">Sports</a>
+                    <a href="#fields">Fields</a>
+                </div>
+
+                <div>
+                    <h4>Contact Us</h4>
+                    <p>email@example.com</p>
+                    <p>+966 54 124 6461</p>
                 </div>
             </div>
 
-            <div class="hero-card">
-                <h3>Why Sport Hub?</h3>
-                <ul>
-                    <li>Fast and simple booking</li>
-                    <li>Fields near your location</li>
-                    <li>User ratings and reviews</li>
-                    <li>Easy to expand with new sections</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</header>
-
-<main class="container">
-
-    <section id="sports">
-        <div class="section-title">
-            <h2>Available Sports</h2>
-            <p>Add or remove any category later</p>
-        </div>
-
-        <div class="cards" id="sports-container">
-            </div>
-    </section>
-
-    <section id="fields">
-        <div class="section-title">
-            <h2>Featured Fields</h2>
-            <p>Find and book the best fields in Jeddah</p>
-        </div>
-
-        <div class="cards" id="fields-container">
-            </div>
-      </section>
-
-    <section id="features">
-        <div class="section-title">
-            <h2>Platform Features</h2>
-            <p>Use this section to explain the value of the system</p>
-        </div>
-
-        <div class="features">
-            <div class="feature">
-                <h3>Smart Search</h3>
-                <p>Search for fields by sport, location, and rating.</p>
-            </div>
-            <div class="feature">
-                <h3>Direct Booking</h3>
-                <p>Book from the same page without complicated steps.</p>
-            </div>
-            <div class="feature">
-                <h3>User Reviews</h3>
-                <p>Show user feedback to help visitors choose the best place.</p>
-            </div>
-            <div class="feature">
-                <h3>Expandable Design</h3>
-                <p>Add more cards, categories, and sections anytime.</p>
-            </div>
-        </div>
-    </section>
-
-    <section>
-        <div class="stats">
-            <div class="stat">
-                <strong>120+</strong>
-                <span>Fields</span>
-            </div>
-            <div class="stat">
-                <strong>8</strong>
-                <span>Sports</span>
-            </div>
-            <div class="stat">
-                <strong>4.9</strong>
-                <span>Average Rating</span>
-            </div>
-            <div class="stat">
-                <strong>24/7</strong>
-                <span>Booking Available</span>
-            </div>
-        </div>
-    </section>
-
-</main>
-
-<footer id="contact">
-    <div class="container">
-        <div class="footer-grid">
-            <div>
-                <h3>Sport Hub</h3>
-                <p>A platform for booking sports fields and activities easily and quickly.</p>
-            </div>
-
-            <div>
-                <h4>Quick Links</h4>
-                <a href="#home">Home</a>
-                <a href="#sports">Sports</a>
-                <a href="#fields">Fields</a>
-            </div>
-
-            <div>
-                <h4>Contact Us</h4>
-                <p>email@example.com</p>
-                <p>+966 54 124 6461</p>
+            <div class="copyright">
+                © 2026 Sport Hub — All rights reserved
             </div>
         </div>
 
-        <div class="copyright">
-            © 2026 Sport Hub — All rights reserved
+        <div id="bookingModal" class="modal-overlay">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeModal()">&times;</span>
+                <h2 class="modal-title" id="modal-title">Confirm Booking</h2>
+
+                <div class="extra-option">
+                    <label>
+                        <input type="checkbox" id="addReferee" onchange="updateTotal()">
+                        Add referee service
+                    </label>
+                    <span class="extra-price">+50 SAR</span>
+                </div>
+
+                <div class="extra-option">
+                    <label>
+                        <input type="checkbox" id="addEquipment" onchange="updateTotal()">
+                        Add sports equipment rental
+                    </label>
+                    <span class="extra-price">+30 SAR</span>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="total-price" id="modal-total">Total: 0 SAR</div>
+                    <button class="confirm-btn" onclick="submitBooking()">Confirm and Pay</button>
+                </div>
+            </div>
         </div>
-    </div>
-    
-    <div id="bookingModal" class="modal-overlay">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal()">&times;</span>
-        <h2 class="modal-title" id="modal-title">Confirm Booking</h2>
-        
-        <div class="extra-option">
-            <label>
-                <input type="checkbox" id="addReferee" onchange="updateTotal()">
-                Add referee service
-            </label>
-            <span class="extra-price">+50 SAR</span>
-        </div>
+    </footer>
+    <script>
+        //tests before put the real data from the DB
+        const fieldsData = [
+            { id: 1, name: "Elite Stadium", location: "Jeddah - Al Rawdah", sport: "Football", rating: "4.8", price: 150 },
+            { id: 2, name: "Sports Academy", location: "Jeddah - Al Salamah", sport: "Padel", rating: "4.7", price: 200 },
+            { id: 3, name: "Champions Center", location: "Jeddah - Al Hamra", sport: "Football", rating: "4.9", price: 120 },
+            { id: 4, name: "Smash Arena", location: "Jeddah - Obhur", sport: "Volleyball", rating: "4.5", price: 100 }
+        ];
+        const sportsData = [
+            { name: "Football", desc: "Suitable for daily booking and tournaments", price: "120", bg: "#d1fae5", color: "#065f46" },
+            { name: "Padel", desc: "A great option for quick bookings with friends", price: "150", bg: "#d1fae5", color: "#065f46" },
+            { name: "Table Tennis", desc: "Suitable for clubs and sports centers", price: "50", bg: "#d1fae5", color: "#065f46" },
+            { name: "Volleyball", desc: "Indoor or outdoor depending on the location", price: "100", bg: "#d1fae5", color: "#065f46" }
+        ];
 
-        <div class="extra-option">
-            <label>
-                <input type="checkbox" id="addEquipment" onchange="updateTotal()">
-                Add sports equipment rental
-            </label>
-            <span class="extra-price">+30 SAR</span>
-        </div>
 
-        <div class="modal-footer">
-            <div class="total-price" id="modal-total">Total: 0 SAR</div>
-            <button class="confirm-btn" onclick="submitBooking()">Confirm and Pay</button>
-        </div>
-    </div>
-</div>
-</footer>
-<script>
-   //tests before put the real data from the DB
-    const fieldsData = [
-        { id: 1, name: "Elite Stadium", location: "Jeddah - Al Rawdah", sport: "Football", rating: "4.8", price: 150 },
-        { id: 2, name: "Sports Academy", location: "Jeddah - Al Salamah", sport: "Padel", rating: "4.7", price: 200 },
-        { id: 3, name: "Champions Center", location: "Jeddah - Al Hamra", sport: "Football", rating: "4.9", price: 120 },
-        { id: 4, name: "Smash Arena", location: "Jeddah - Obhur", sport: "Volleyball", rating: "4.5", price: 100 }
-    ];
-    const sportsData = [
-        { name: "Football", desc: "Suitable for daily booking and tournaments", price: "120", bg: "#d1fae5", color: "#065f46" },
-        { name: "Padel", desc: "A great option for quick bookings with friends", price: "150", bg: "#d1fae5", color: "#065f46" },
-        { name: "Table Tennis", desc: "Suitable for clubs and sports centers", price: "50", bg: "#d1fae5", color: "#065f46" },
-        { name: "Volleyball", desc: "Indoor or outdoor depending on the location", price: "100", bg: "#d1fae5", color: "#065f46" }
-    ];
 
-  
-    
-    function renderFields(fieldsToRender) {
-        const container = document.getElementById('fields-container');
-        container.innerHTML = ''; 
+        function renderFields(fieldsToRender) {
+            const container = document.getElementById('fields-container');
+            container.innerHTML = '';
 
-        if(fieldsToRender.length === 0) {
-            container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--muted);">No fields match your search.</p>';
-            return;
-        }
+            if (fieldsToRender.length === 0) {
+                container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--muted);">No fields match your search.</p>';
+                return;
+            }
 
-        fieldsToRender.forEach(field => {
-            const cardHTML = `
+            fieldsToRender.forEach(field => {
+                const cardHTML = `
                 <div class="card">
                     <div class="card-img" style="background: linear-gradient(135deg, #bfdbfe, #93c5fd); color: #1e3a8a;">
                         ${field.sport}
@@ -697,15 +721,15 @@
                     </div>
                 </div>
             `;
-            container.innerHTML += cardHTML;
-        });
-    }
-    function renderSports() {
-        const container = document.getElementById('sports-container');
-        container.innerHTML = '';
+                container.innerHTML += cardHTML;
+            });
+        }
+        function renderSports() {
+            const container = document.getElementById('sports-container');
+            container.innerHTML = '';
 
-        sportsData.forEach(sport => {
-            const cardHTML = `
+            sportsData.forEach(sport => {
+                const cardHTML = `
                 <div class="card" style="cursor: pointer;" onclick="filterBySportCard('${sport.name}')">
                     <div class="card-img" style="background: ${sport.bg}; color: ${sport.color};">
                         ${sport.name}
@@ -720,124 +744,126 @@
                     </div>
                 </div>
             `;
-            container.innerHTML += cardHTML;
-        });
-    }
-
-  
-    function filterBySportCard(sportName) {
-  
-        const sportSelect = document.querySelector('.search-grid select');
-        sportSelect.value = sportName;
-
-        const filteredFields = fieldsData.filter(field => field.sport === sportName);
-        renderFields(filteredFields);
-
-        document.getElementById('fields').scrollIntoView({ behavior: 'smooth' });
-    }
-
-  
+                container.innerHTML += cardHTML;
+            });
+        }
 
 
-   
-    let currentBookingDetails = null; //save the detials of the current booking to use in the modal and submission
+        function filterBySportCard(sportName) {
 
-   
-    function bookField(id, name) {
-     
-        const field = fieldsData.find(f => f.id === id);
-        const basePrice = field ? parseInt(field.price) : 150;
+            const sportSelect = document.querySelector('.search-grid select');
+            sportSelect.value = sportName;
 
-      
-        currentBookingDetails = { id, name, basePrice };
+            const filteredFields = fieldsData.filter(field => field.sport === sportName);
+            renderFields(filteredFields);
 
-       
-        document.getElementById('modal-title').innerText = `Book: ${name}`;
-        document.getElementById('addReferee').checked = false;
-        document.getElementById('addEquipment').checked = false;
-        updateTotal(); 
-
-    
-        document.getElementById('bookingModal').style.display = 'flex';
-    }
-
-  
-    function closeModal() {
-        document.getElementById('bookingModal').style.display = 'none';
-    }
+            document.getElementById('fields').scrollIntoView({ behavior: 'smooth' });
+        }
 
 
-    function updateTotal() {
-        let total = currentBookingDetails.basePrice;
-        if (document.getElementById('addReferee').checked) total += 50;
-        if (document.getElementById('addEquipment').checked) total += 30;
+
+
+
+        let currentBookingDetails = null; //save the detials of the current booking to use in the modal and submission
+
+
+        function bookField(id, name) {
+
+            const field = fieldsData.find(f => f.id === id);
+            const basePrice = field ? parseInt(field.price) : 150;
+
+
+            currentBookingDetails = { id, name, basePrice };
+
+
+            document.getElementById('modal-title').innerText = `Book: ${name}`;
+            document.getElementById('addReferee').checked = false;
+            document.getElementById('addEquipment').checked = false;
+            updateTotal();
+
+
+            document.getElementById('bookingModal').style.display = 'flex';
+        }
+
+
+        function closeModal() {
+            document.getElementById('bookingModal').style.display = 'none';
+        }
+
+
+        function updateTotal() {
+            let total = currentBookingDetails.basePrice;
+            if (document.getElementById('addReferee').checked) total += 50;
+            if (document.getElementById('addEquipment').checked) total += 30;
+
+            document.getElementById('modal-total').innerText = `Total: ${total} SAR`;
+        }
+
         
-        document.getElementById('modal-total').innerText = `Total: ${total} SAR`;
-    }
+        async function submitBooking() {
+            const userEmail = localStorage.getItem("userEmail") || "player@example.com";
 
-    async function submitBooking() {
-        const addRef = document.getElementById('addReferee').checked;
-        const addEq = document.getElementById('addEquipment').checked;
+            const addReferee = document.getElementById('addReferee').checked;
+            const addEquipment = document.getElementById('addEquipment').checked;
 
-       
-        const url = `/api/booking/make?fieldName=${encodeURIComponent(currentBookingDetails.name)}&basePrice=${currentBookingDetails.basePrice}&addReferee=${addRef}&addEquipment=${addEq}`;
+            const url = `/api/booking/make?email=${userEmail}&fieldName=${encodeURIComponent(currentBookingDetails.name)}&basePrice=${currentBookingDetails.basePrice}&addReferee=${addReferee}&addEquipment=${addEquipment}`;
 
-        try {
-           
             const btn = document.querySelector('.confirm-btn');
             btn.innerText = "Processing...";
             btn.style.pointerEvents = "none";
 
-            const response = await fetch(url, { method: 'POST' });
-            if (response.ok) {
-                const data = await response.json();
-                localStorage.setItem("lastReceipt", JSON.stringify(data));
-                window.location.href = "/confirmation.html";
-            } else {
-                alert("Something went wrong with the booking. Please try again.");
+            try {
+                const response = await fetch(url, { method: 'POST' });
+                if (response.ok) {
+                    const data = await response.json();
+                    localStorage.setItem("lastReceipt", JSON.stringify(data));
+                    window.location.href = "/confirmation.html";
+                } else {
+                    alert("An error occurred. Please check your connection or database.");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Please ensure the Spring Boot server is running.");
+            } finally {
                 btn.innerText = "Confirm and Pay";
                 btn.style.pointerEvents = "auto";
             }
-        } catch (error) {
-            console.error("Error:", error);
-            alert("Something went wrong from the server. Please try again.");
-            closeModal();
         }
-    }
 
-    
-    function setupSearch() {
-        const searchInput = document.querySelector('.search-grid input');
-        const sportSelect = document.querySelector('.search-grid select');
-        const searchBtn = document.querySelector('.search-grid button');
 
-        searchBtn.addEventListener('click', () => {
-            const searchTerm = searchInput.value.toLowerCase();
-            const selectedSport = sportSelect.value;
+        function setupSearch() {
+            const searchInput = document.querySelector('.search-grid input');
+            const sportSelect = document.querySelector('.search-grid select');
+            const searchBtn = document.querySelector('.search-grid button');
 
-            const filteredFields = fieldsData.filter(field => {
-                const matchesName = field.name.toLowerCase().includes(searchTerm) || field.location.toLowerCase().includes(searchTerm);
-                const matchesSport = (selectedSport === "Choose Sport") || (field.sport === selectedSport);
-                
-                return matchesName && matchesSport;
+            searchBtn.addEventListener('click', () => {
+                const searchTerm = searchInput.value.toLowerCase();
+                const selectedSport = sportSelect.value;
+
+                const filteredFields = fieldsData.filter(field => {
+                    const matchesName = field.name.toLowerCase().includes(searchTerm) || field.location.toLowerCase().includes(searchTerm);
+                    const matchesSport = (selectedSport === "Choose Sport") || (field.sport === selectedSport);
+
+                    return matchesName && matchesSport;
+                });
+
+                renderFields(filteredFields);
             });
+        }
 
-            renderFields(filteredFields);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderFields(fieldsData);
+            setupSearch();
+            renderSports();
         });
-    }
-
-   
-    document.addEventListener('DOMContentLoaded', () => {
-        renderFields(fieldsData); 
-        setupSearch(); 
-        renderSports(); 
-    });
 
 
-    function logout() {
-        localStorage.removeItem("isLoggedIn");
-        window.location.href = "/login";
-    }
-</script>
+        function logout() {
+            localStorage.removeItem("isLoggedIn");
+            window.location.href = "/login";
+        }
+    </script>
 </body>
+
 </html>
