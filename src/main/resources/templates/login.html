@@ -295,6 +295,7 @@
       .then(data => {
           localStorage.setItem("isLoggedIn", "true");
           localStorage.setItem("userName", data.name);
+          localStorage.setItem("userEmail", document.getElementById("loginEmail").value);
           
           window.location.href = "/";
       })

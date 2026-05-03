@@ -801,7 +801,7 @@
 
         
         async function submitBooking() {
-            const userEmail = localStorage.getItem("userEmail") || "player@example.com";
+            const userEmail = localStorage.getItem("userEmail");
 
             const addReferee = document.getElementById('addReferee').checked;
             const addEquipment = document.getElementById('addEquipment').checked;
