@@ -29,7 +29,6 @@ A centralized platform designed to streamline the booking process for various sp
 3. **Run:** Open terminal in the file's folder and run: `java -jar sporthub-0.0.1-SNAPSHOT.jar`
 4. **Access:** Visit `http://localhost:8081` in your browser.
 
-## Screenshots
 ![2323.png](2323.png)
 
 ## Second Release
