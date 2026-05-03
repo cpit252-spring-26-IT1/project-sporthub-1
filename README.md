@@ -45,14 +45,15 @@ A centralized platform designed to streamline the booking process for various sp
    java -jar sporthub-1.0.1-SNAPSHOT.jar
    
 ## Screenshots
-![1.png](P/1.png)
-![2.png](P/2.png)
-![3.png](P/3.png)
-![4.png](P/4.png)
+![1.png](1.png)
+![2.png](2.png)
+![3.png](3.png)
+![4.png](4.png)
 
 ### This the data after booked
 
-![5.png](P/5.png)
+![5.png](5.png)
+
 ## License
 
 MIT-License
