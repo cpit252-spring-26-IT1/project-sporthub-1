@@ -55,7 +55,7 @@ A centralized platform designed to streamline the booking process for various sp
 ![4.png](P/4.png)
 
 ### This the data after booked
-![5.png](p/5.png)
+![5.png](P/5.png)
 
 ## License
 
