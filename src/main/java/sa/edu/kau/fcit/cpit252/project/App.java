@@ -14,6 +14,8 @@ public class App {
         
     }
 
+    
+
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {

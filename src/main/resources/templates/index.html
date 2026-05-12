@@ -800,35 +800,28 @@
         }
 
         
-        async function submitBooking() {
-            const userEmail = localStorage.getItem("userEmail");
+        function submitBooking() {
+    
+    const userEmail = localStorage.getItem("userEmail");
+    const addReferee = document.getElementById('addReferee').checked;
+    const addEquipment = document.getElementById('addEquipment').checked;
+    
 
-            const addReferee = document.getElementById('addReferee').checked;
-            const addEquipment = document.getElementById('addEquipment').checked;
+    let finalCost = currentBookingDetails.basePrice;
+    if (addReferee) finalCost += 50;
+    if (addEquipment) finalCost += 30;
 
-            const url = `/api/booking/make?email=${userEmail}&fieldName=${encodeURIComponent(currentBookingDetails.name)}&basePrice=${currentBookingDetails.basePrice}&addReferee=${addReferee}&addEquipment=${addEquipment}`;
-
-            const btn = document.querySelector('.confirm-btn');
-            btn.innerText = "Processing...";
-            btn.style.pointerEvents = "none";
-
-            try {
-                const response = await fetch(url, { method: 'POST' });
-                if (response.ok) {
-                    const data = await response.json();
-                    localStorage.setItem("lastReceipt", JSON.stringify(data));
-                    window.location.href = "/confirmation.html";
-                } else {
-                    alert("An error occurred. Please check your connection or database.");
-                }
-            } catch (error) {
-                console.error("Error:", error);
-                alert("Please ensure the Spring Boot server is running.");
-            } finally {
-                btn.innerText = "Confirm and Pay";
-                btn.style.pointerEvents = "auto";
-            }
-        }
+    const infoBooking = {
+        email: userEmail, 
+        fieldName: currentBookingDetails.name,
+        basePrice: currentBookingDetails.basePrice, 
+        addReferee: addReferee,
+        addEquipment: addEquipment,
+        totalCost: finalCost 
+    };
+    localStorage.setItem("infoBooking", JSON.stringify(infoBooking));
+    window.location.href = "/payPage.html";
+}
 
 
         function setupSearch() {

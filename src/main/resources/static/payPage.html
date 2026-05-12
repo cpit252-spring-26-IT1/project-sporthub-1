@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" dir="rtl">  
+<head>
+    <meta charset="UTF-8">
+    <title>Payment | Sport Hub</title>
+    <style>
+        body { font-family: sans-serif; background: #f8fafc; display: flex; justify-content: center; padding-top: 50px; margin: 0; }
+        
+        /* payment container*/
+        .payment-container { 
+            background: white; padding: 30px; border-radius: 15px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 400px; text-align: center; 
+            position: relative; overflow: hidden; transition: all 0.3s ease;
+        }
+        
+        h1 { color: #0f766e; margin-bottom: 20px; transition: color 0.3s ease; }
+        
+        /*tabs and content*/
+        .content-section { display: flex; flex-direction: column; gap: 15px; transition: opacity 0.3s ease; }
+        
+        .btn-pay { 
+            padding: 12px; background: #0f766e; color: white; 
+            text-decoration: none; border-radius: 8px; cursor: pointer; border: none; font-size: 16px;
+            transition: background 0.3s ease; font-weight: bold;
+        }
+        .btn-pay:hover { background: #115e59; }
+        .btn-pay.apple { background: #000; } 
+        .btn-pay.apple:hover { background: #333; }
+
+        .details { margin-top: 20px; text-align: left; background: #f1f5f9; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0; }
+        .total { font-size: 18px; color: #b91c1c; font-weight: bold; }
+
+        /*card form*/
+        .card-form { display: none; text-align: left; gap: 12px; margin-top: 10px; }
+        .card-form label { font-weight: bold; color: #475569; font-size: 14px; display: block; }
+        .card-form input { 
+            padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; 
+            font-size: 15px; width: 100%; box-sizing: border-box; transition: border-color 0.2s;
+        }
+        .card-form input:focus { outline: none; border-color: #0f766e; box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.1); }
+        .row { display: flex; gap: 15px; }
+        .row-item { flex: 1; }
+
+        /*loading*/
+        .loadingforpay { display: none; flex-direction: column; align-items: center; gap: 20px; padding: 40px 0; }
+        .spinner { border: 4px solid #f3f3f3; border-top: 4px solid #0f766e; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .loading-text { font-weight: bold; color: #1f2937; font-size: 16px; margin: 0; }
+
+        /* error state */
+        .input-error { border-color: #ef4444 !important; background-color: #fef2f2; }
+    </style>
+</head>
+<body>
+    <div class="payment-container">
+        <h1 id="main-title">💳 Payment</h1>
+
+        <div class="content-section" id="payment-methods-section">
+            <a class="btn-pay apple" onclick="showApplePay()">Apple Pay</a>
+            <a class="btn-pay" onclick="showCardForm()">Credit Card / Mada</a>
+            <div class="details" id="total-cost-box">
+                </div>
+        </div>
+
+        <div class="content-section card-form" id="card-form-section">
+            <div class="row-item">
+                <label>Cardholder Name*</label>
+                <input type="text" id="cardholder" placeholder="John Doe" required />
+            </div>
+            <div class="row-item">
+                <label>Card Number*</label>
+                <input type="text" id="cardnumber" placeholder="0123 4567 8901 2345" required maxlength="19" />
+            </div>
+            <div class="row">
+                <div class="row-item">
+                    <label>Expiry Date*</label>
+                    <input type="text" id="expiry" placeholder="MM/YY" required maxlength="5" />
+                </div>
+                <div class="row-item">
+                    <label>CVV*</label>
+                    <input type="text" id="cvv" placeholder="123" required maxlength="3" />
+                </div>
+            </div>
+            <button class="btn-pay" style="margin-top: 10px;" onclick="ccpay()">Pay Now</button>
+        </div>
+
+        <div class="content-section loadingforpay" id="loading-section">
+            <div class="spinner"></div>
+            <p class="loading-text" id="loading-text">Processing...</p>
+        </div>
+    </div>
+
+    <script>
+        const receiptData = JSON.parse(localStorage.getItem("infoBooking"));
+
+        if (receiptData) {
+            document.getElementById('total-cost-box').innerHTML = `
+                <p><strong>Order Status:</strong> ⏳ Pending Payment</p>
+                <p><strong>Field:</strong> ${receiptData.fieldName}</p>
+                <hr style="border: 0; border-top: 1px solid #e2e8f0;">
+                <p class="total">Total: ${receiptData.totalCost} SAR</p>
+            `;
+        }
+
+        function hideAllSections() {
+            document.getElementById('payment-methods-section').style.display = 'none';
+            document.getElementById('card-form-section').style.display = 'none';
+            document.getElementById('loading-section').style.display = 'none';
+        }
+
+        function showLoading(text) {
+            hideAllSections();
+            document.getElementById('loading-text').textContent = text;
+            document.getElementById('loading-section').style.display = 'flex';
+        }
+
+        function showApplePay() {
+            document.getElementById('main-title').textContent = "Apple Pay";
+            showLoading("Processing Apple Pay");
+            
+            setTimeout(() => {
+                localStorage.setItem("paymentMethod", "APPLE_PAY");
+                submitBooking();
+            }, 13000);
+        }
+
+       
+        function showCardForm() {
+            hideAllSections();
+            document.getElementById('main-title').textContent = "Credit Card / Mada";
+            document.getElementById('card-form-section').style.display = 'flex';
+        }
+
+        function ccpay() {
+            const inputs = document.querySelectorAll('#card-form-section input');
+            let isValid = true;
+            for (let input of inputs) {
+                if (input.value.trim() === '') {
+                    input.classList.add('input-error');
+                    isValid = false;
+                    input.addEventListener('input', function() {
+                        this.classList.remove('input-error');
+                    }, { once: true });
+                } else {
+                    input.classList.remove('input-error');
+                }
+            }
+
+            if (!isValid) return; 
+
+            
+            showLoading("Processing Card Payment");
+            
+            setTimeout(() => {
+                localStorage.setItem("paymentMethod", "MADA_CREDIT_CARD");
+                submitBooking();
+            }, 13000); 
+        }
+        async function submitBooking() {
+            const infoBooking = JSON.parse(localStorage.getItem("infoBooking"));
+            const paymentMethod = localStorage.getItem("paymentMethod"); 
+
+            if(!infoBooking || !paymentMethod) {
+                alert("Missing booking or payment details.");
+                window.location.href = "/index.html";
+                return;
+            }
+
+            const url = `/api/booking/make?email=${encodeURIComponent(infoBooking.email)}&fieldName=${encodeURIComponent(infoBooking.fieldName)}&basePrice=${infoBooking.basePrice}&addReferee=${infoBooking.addReferee}&addEquipment=${infoBooking.addEquipment}&paymentMethod=${encodeURIComponent(paymentMethod)}`;
+
+                const response = await fetch(url, { method: 'POST' });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    localStorage.setItem("lastReceipt", JSON.stringify(data));
+
+                    window.location.href = "/confirmation.html";
+                } else {
+                    alert("Payment failed or server error. Please try again.");
+                    
+                    document.getElementById('main-title').textContent = "💳 Payment";
+                    hideAllSections();
+                    document.getElementById('payment-methods-section').style.display = 'flex';
+                }
+            } 
+        
+        
+    </script>
+</body>
+</html>
