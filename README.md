@@ -11,6 +11,7 @@ A centralized platform designed to streamline the booking process for various sp
 - Rating System: User ratings and reviews for each field to ensure quality and transparency.
 
 - Customizable Add-ons: Options to include extra services like a professional referee or sports equipment rental during the booking process.
+- Flexibility in adding and diversifying payment methods in the future.
 
 
 
