@@ -22,16 +22,22 @@ public class BookingRecord {
     private String description;
     private LocalDateTime bookingDate;
     private String paymentMethod;
+    private String playDate; 
+    private String playTime;
+    
+    
 
     public BookingRecord() {}
 
-    public BookingRecord(String userEmail, String fieldName, double totalCost, String description, String paymentMethod) {
+    public BookingRecord(String userEmail, String fieldName, double totalCost, String description, String paymentMethod, String playDate, String playTime) {
         this.userEmail = userEmail;
         this.fieldName = fieldName;
         this.totalCost = totalCost;
         this.description = description;
         this.bookingDate = LocalDateTime.now();
         this.paymentMethod = paymentMethod;
+        this.playDate = playDate;
+        this.playTime = playTime;
     }
 
    
@@ -42,4 +48,6 @@ public class BookingRecord {
     public String getDescription() { return description; }
     public LocalDateTime getBookingDate() { return bookingDate; }
     public String getPaymentMethod() { return paymentMethod; }
+    public String getPlayDate() { return playDate; }
+    public String getPlayTime() { return playTime; }
 }

@@ -493,6 +493,37 @@
         .confirm-btn:hover {
             background: var(--primary-dark);
         }
+        .datetime-container {
+     margin-top: 15px; margin-bottom: 20px; text-align: left; 
+          }
+        .datetime-container label {
+     font-weight: bold; color: #475569; display: block; margin-bottom: 8px; 
+    }    
+         .date-input { 
+    width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; 
+    font-size: 15px; font-family: inherit; margin-bottom: 15px; box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+.date-input:focus {
+     outline: none; border-color: #0f766e; 
+    }
+
+
+.time-slots { 
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px; 
+}
+.time-btn { 
+    padding: 12px; border: 1px solid #0f766e; background: white; color: #0f766e; 
+    border-radius: 8px; cursor: pointer; transition: all 0.2s; font-weight: bold; font-size: 14px;
+}
+.time-btn:hover:not(.disabled) { background: #f0fdfa; }
+.time-btn.selected {
+     background: #0f766e; color: white; 
+    }
+  .time-btn.disabled { 
+    background: #f1f5f9; color: #94a3b8; border-color: #e2e8f0; 
+    cursor: not-allowed; text-decoration: line-through; 
+}
     </style>
 </head>
 
@@ -652,32 +683,42 @@
         </div>
 
         <div id="bookingModal" class="modal-overlay">
-            <div class="modal-content">
-                <span class="close-btn" onclick="closeModal()">&times;</span>
-                <h2 class="modal-title" id="modal-title">Confirm Booking</h2>
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <h2 class="modal-title" id="modal-title">Confirm Booking</h2>
 
-                <div class="extra-option">
-                    <label>
-                        <input type="checkbox" id="addReferee" onchange="updateTotal()">
-                        Add referee service
-                    </label>
-                    <span class="extra-price">+50 SAR</span>
-                </div>
-
-                <div class="extra-option">
-                    <label>
-                        <input type="checkbox" id="addEquipment" onchange="updateTotal()">
-                        Add sports equipment rental
-                    </label>
-                    <span class="extra-price">+30 SAR</span>
-                </div>
-
-                <div class="modal-footer">
-                    <div class="total-price" id="modal-total">Total: 0 SAR</div>
-                    <button class="confirm-btn" onclick="submitBooking()">Confirm and Pay</button>
-                </div>
+        <div class="datetime-container">
+            <label>📅 Select Play Date:</label>
+            <input type="date" id="playDate" class="date-input" onchange="generateTimeSlots()">
+            
+            <label>⏰ Select Play Time:</label>
+            <div id="timeSlots" class="time-slots">
+                <p style="color: #64748b; font-size: 14px; grid-column: 1/-1; margin: 0;">Please select a date first to see available times.</p>
             </div>
         </div>
+
+        <div class="extra-option">
+            <label>
+                <input type="checkbox" id="addReferee" onchange="updateTotal()">
+                Add referee service
+            </label>
+            <span class="extra-price">+50 SAR</span>
+        </div>
+
+        <div class="extra-option">
+            <label>
+                <input type="checkbox" id="addEquipment" onchange="updateTotal()">
+                Add sports equipment rental
+            </label>
+            <span class="extra-price">+30 SAR</span>
+        </div>
+
+        <div class="modal-footer">
+            <div class="total-price" id="modal-total">Total: 0 SAR</div>
+            <button class="confirm-btn" onclick="submitBooking()">Confirm and Pay</button>
+        </div>
+    </div>
+</div>
     </footer>
     <script>
         //tests before put the real data from the DB
@@ -693,9 +734,14 @@
             { name: "Table Tennis", desc: "Suitable for clubs and sports centers", price: "50", bg: "#d1fae5", color: "#065f46" },
             { name: "Volleyball", desc: "Indoor or outdoor depending on the location", price: "100", bg: "#d1fae5", color: "#065f46" }
         ];
-
-
-
+        const timeSlotsArray = [
+            { id: "17:00", label: "05:00 PM - 07:00 PM" },
+            { id: "19:00", label: "07:00 PM - 09:00 PM" },
+            { id: "21:00", label: "09:00 PM - 11:00 PM" },
+            { id: "23:00", label: "11:00 PM - 01:00 AM" }
+       ];
+       let selectedDate = "";
+       let selectedTime = "";
         function renderFields(fieldsToRender) {
             const container = document.getElementById('fields-container');
             container.innerHTML = '';
@@ -774,8 +820,10 @@
 
 
             currentBookingDetails = { id, name, basePrice };
-
-
+            document.getElementById('playDate').value = "";
+            selectedDate = "";
+            selectedTime = "";
+            document.getElementById('timeSlots').innerHTML = `<p style="color: #64748b; font-size: 14px; grid-column: 1/-1; margin: 0;">Please select a date first to see available times.</p>`;
             document.getElementById('modal-title').innerText = `Book: ${name}`;
             document.getElementById('addReferee').checked = false;
             document.getElementById('addEquipment').checked = false;
@@ -798,10 +846,56 @@
 
             document.getElementById('modal-total').innerText = `Total: ${total} SAR`;
         }
+        async function generateTimeSlots() {
+            selectedDate = document.getElementById('playDate').value;
+            const container = document.getElementById('timeSlots');
+            container.innerHTML = ""; 
+            selectedTime = ""; 
+
+            if (!selectedDate) {
+                container.innerHTML = `<p style="color: #64748b; font-size: 14px; grid-column: 1/-1; margin: 0;">Please select a date first to see available times.</p>`;
+                return;
+    }
+
+            try {
+               
+                const response = await fetch(`/api/booking/timebooked?fieldName=${encodeURIComponent(currentBookingDetails.name)}&playDate=${selectedDate}`);
+                const bookedSlots = response.ok ? await response.json() : []; 
+
+       
+                timeSlotsArray.forEach(slot => {
+                const btn = document.createElement('button');
+                btn.className = 'time-btn';
+                btn.innerText = slot.label;
+            
+            
+                if (bookedSlots.includes(slot.id)) { 
+                   btn.classList.add('disabled');
+                   btn.innerText += " (Booked)";
+              } else {
+                
+                    btn.onclick = () => {
+                    document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('selected'));
+                    btn.classList.add('selected');
+                    selectedTime = slot.id; 
+                };
+            }
+            container.appendChild(btn);
+        });
+
+    } catch (error) {
+        console.error("Error fetching time slots:", error);
+        container.innerHTML = '<p style="color: #ef4444; font-size: 14px; grid-column: 1/-1; margin: 0;">Error loading time slots. Please try again.</p>';
+    }
+}
 
         
-        function submitBooking() {
-    
+        
+    function submitBooking() {
+    if (!selectedDate || !selectedTime) {
+        alert("⚠️ Please select a play date and time to proceed!");
+        return;
+    }
     const userEmail = localStorage.getItem("userEmail");
     const addReferee = document.getElementById('addReferee').checked;
     const addEquipment = document.getElementById('addEquipment').checked;
@@ -817,7 +911,9 @@
         basePrice: currentBookingDetails.basePrice, 
         addReferee: addReferee,
         addEquipment: addEquipment,
-        totalCost: finalCost 
+        totalCost: finalCost,
+        playDate: selectedDate, 
+        playTime: selectedTime 
     };
     localStorage.setItem("infoBooking", JSON.stringify(infoBooking));
     window.location.href = "/payPage.html";

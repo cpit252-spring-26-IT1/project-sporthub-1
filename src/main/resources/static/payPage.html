@@ -166,7 +166,7 @@
                 return;
             }
 
-            const url = `/api/booking/make?email=${encodeURIComponent(infoBooking.email)}&fieldName=${encodeURIComponent(infoBooking.fieldName)}&basePrice=${infoBooking.basePrice}&addReferee=${infoBooking.addReferee}&addEquipment=${infoBooking.addEquipment}&paymentMethod=${encodeURIComponent(paymentMethod)}`;
+            const url = `/api/booking/make?email=${encodeURIComponent(infoBooking.email)}&fieldName=${encodeURIComponent(infoBooking.fieldName)}&basePrice=${infoBooking.basePrice}&addReferee=${infoBooking.addReferee}&addEquipment=${infoBooking.addEquipment}&paymentMethod=${encodeURIComponent(paymentMethod)}&playDate=${encodeURIComponent(infoBooking.playDate)}&playTime=${encodeURIComponent(infoBooking.playTime)}`;
 
                 const response = await fetch(url, { method: 'POST' });
                 

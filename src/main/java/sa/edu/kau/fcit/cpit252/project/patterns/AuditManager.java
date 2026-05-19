@@ -25,4 +25,8 @@ public class AuditManager {
         String time = LocalDateTime.now().format(formatter);
         System.out.println("[" + time + "] (Action #" + this.totalActionsLogged + ") User: " + userEmail + " - " + action);
     }
+    public void logBooking(String userEmail, String fieldName, String playDate, String playTime, double totalCost) {
+        String action = "Booked " + fieldName + " on " + playDate + " at " + playTime + " for $" + totalCost;
+        logAction(userEmail, action);
+    }
 }
