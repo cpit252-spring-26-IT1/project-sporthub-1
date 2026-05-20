@@ -65,7 +65,10 @@ public class AppTest {
     // ========================
     // BasicBooking Tests
     // ========================
-
+    @Test
+    void main(){
+        App.main(new String[]{});
+    }
     @Test
     public void testBasicBookingCost() {
         Booking booking = new BasicBooking("Football Field", 150.0);
