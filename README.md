@@ -61,11 +61,23 @@ A centralized platform designed to streamline the booking process for various sp
 ## License
 
 MIT-License
-## Note
 
+## Docker
+
+
+![6.png](P/6.png)
+![7.png](P/7.png)
+## Note
 
 * **Database:**
   Used to securely store registered user accounts and persist specific booking records for each customer.
 
 * **Local Storage:**
   Utilized to maintain user sessions (keeping users logged in even after page refreshes) and to temporarily store the user's email during the field booking process.
+
+## LLM used
+AI was used in the complete design of the front-end (HTML, CSS, JS).
+
+It was also used in the connection to the database, specifically the Connection String in Supabase. Furthermore, also was used to create the controller classes in the backend.
+
+Finally, AI was used to create the entire Unit Test.
